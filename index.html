@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Trips — Travel Gateway</title>
+<meta name="description" content="Gim's travel adventures — one tap away.">
+<meta name="theme-color" content="#0f172a">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f172a;--bg2:#1e293b;--fg:#f1f5f9;--muted:#94a3b8;--accent:#38bdf8;--accent2:#818cf8;--card:#1e293b;--card-hover:#334155;--border:#334155;--shadow:0 8px 32px rgba(0,0,0,.3);--radius:16px;--transition:.3s cubic-bezier(.4,0,.2,1)}
+[data-theme="light"]{--bg:#f8fafc;--bg2:#e2e8f0;--fg:#0f172a;--muted:#64748b;--accent:#0ea5e9;--accent2:#6366f1;--card:#fff;--card-hover:#f1f5f9;--border:#e2e8f0;--shadow:0 8px 32px rgba(0,0,0,.08)}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);min-height:100vh;transition:background var(--transition),color var(--transition);overflow-x:hidden}
+
+/* Theme toggle */
+.theme-toggle{position:fixed;top:20px;right:20px;z-index:100;background:var(--card);border:1px solid var(--border);border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;box-shadow:var(--shadow);transition:all var(--transition)}
+.theme-toggle:hover{transform:scale(1.1)}
+
+/* Hero */
+.hero{text-align:center;padding:100px 24px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(56,189,248,.1) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(129,140,248,.1) 0%,transparent 50%);animation:heroGlow 8s ease-in-out infinite alternate}
+@keyframes heroGlow{0%{transform:translate(0,0)}100%{transform:translate(-2%,2%)}}
+.hero h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;margin-bottom:16px}
+.hero p{color:var(--muted);font-size:clamp(1rem,2vw,1.25rem);max-width:500px;margin:0 auto;position:relative}
+.hero .emoji-row{font-size:2.5rem;margin-top:24px;position:relative;letter-spacing:8px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* Cards */
+.trips{max-width:900px;margin:0 auto;padding:0 24px 80px;display:grid;gap:24px}
+.trip-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;display:flex;gap:24px;align-items:center;text-decoration:none;color:var(--fg);box-shadow:var(--shadow);transition:all var(--transition);position:relative;overflow:hidden}
+.trip-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity var(--transition)}
+.trip-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.25);background:var(--card-hover);border-color:var(--accent)}
+.trip-card:hover::before{opacity:1}
+.trip-card:active{transform:translateY(-2px)}
+.card-emoji{font-size:3rem;flex-shrink:0;width:72px;height:72px;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:12px;transition:transform var(--transition)}
+.trip-card:hover .card-emoji{transform:scale(1.15) rotate(5deg)}
+.card-body{flex:1;min-width:0}
+.card-body h2{font-size:1.4rem;font-weight:700;margin-bottom:4px}
+.card-body .dates{color:var(--accent);font-size:.9rem;font-weight:600;margin-bottom:8px}
+.card-body .desc{color:var(--muted);font-size:.95rem;line-height:1.5}
+.card-arrow{color:var(--accent);font-size:1.1rem;font-weight:600;white-space:nowrap;transition:transform var(--transition)}
+.trip-card:hover .card-arrow{transform:translateX(4px)}
+
+/* Footer */
+footer{text-align:center;padding:40px 24px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border)}
+footer span{color:var(--accent)}
+
+/* Responsive */
+@media(max-width:640px){
+  .trip-card{flex-direction:column;text-align:center;padding:24px}
+  .card-emoji{width:64px;height:64px;font-size:2.5rem}
+  .card-arrow{margin-top:12px}
+  .hero{padding:80px 20px 40px}
+}
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+
+<section class="hero">
+  <h1>My Trips</h1>
+  <p>Every adventure, one tap away. Pick a trip and start exploring.</p>
+  <div class="emoji-row">✈️ 🌏 🗺️</div>
+</section>
+
+<section class="trips">
+  <a class="trip-card" href="https://kamigim.github.io/lijiang-trip-2026/">
+    <div class="card-emoji">🏔️</div>
+    <div class="card-body">
+      <h2>Lijiang, China</h2>
+      <div class="dates">Apr 4–8, 2026</div>
+      <div class="desc">Ancient town, Jade Dragon Snow Mountain, Shangri-La</div>
+    </div>
+    <div class="card-arrow">View Trip →</div>
+  </a>
+  <a class="trip-card" href="https://kamigim.github.io/korea-trip-2026/">
+    <div class="card-emoji">🇰🇷</div>
+    <div class="card-body">
+      <h2>Seoul, Korea</h2>
+      <div class="dates">2026</div>
+      <div class="desc">Seoul Adventure</div>
+    </div>
+    <div class="card-arrow">View Trip →</div>
+  </a>
+  <a class="trip-card" href="https://kamigim.github.io/hongkong-2026/">
+    <div class="card-emoji">🇭🇰</div>
+    <div class="card-body">
+      <h2>Hong Kong</h2>
+      <div class="dates">Jan 15–18, 2026</div>
+      <div class="desc">Temples, Disneyland, Victoria Peak</div>
+    </div>
+    <div class="card-arrow">View Trip →</div>
+  </a>
+</section>
+
+<footer>Built with <span>❤️</span> by John <span>🦞</span></footer>
+
+<script>
+// Theme toggle
+const toggle=document.getElementById('themeToggle');
+const html=document.documentElement;
+const saved=localStorage.getItem('theme');
+if(saved){html.dataset.theme=saved;toggle.textContent=saved==='dark'?'🌙':'☀️'}
+toggle.addEventListener('click',()=>{
+  const next=html.dataset.theme==='dark'?'light':'dark';
+  html.dataset.theme=next;localStorage.setItem('theme',next);
+  toggle.textContent=next==='dark'?'🌙':'☀️';
+});
+
+// Register SW
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
