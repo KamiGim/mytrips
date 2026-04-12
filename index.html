@@ -30,7 +30,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 
 /* Cards */
-.trips{max-width:900px;margin:0 auto;padding:0 24px 80px;display:grid;gap:24px}
+.trips{max-width:900px;margin:0 auto;padding:40px 24px 80px;display:grid;gap:24px}
 .trip-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;display:flex;gap:24px;align-items:center;text-decoration:none;color:var(--fg);box-shadow:var(--shadow);transition:all var(--transition);position:relative;overflow:hidden}
 .trip-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity var(--transition)}
 .trip-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.25);background:var(--card-hover);border-color:var(--accent)}
