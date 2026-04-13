@@ -45,6 +45,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card-arrow{color:var(--accent);font-size:1.1rem;font-weight:600;white-space:nowrap;transition:transform var(--transition)}
 .trip-card:hover .card-arrow{transform:translateX(4px)}
 
+/* Map Section */
+.map-section{max-width:900px;margin:0 auto;padding:0 24px 60px}
+.map-section h2{text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+#map-container{width:100%;height:400px;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow)}
+@media(max-width:640px){#map-container{height:300px}}
+
 /* Footer */
 footer{text-align:center;padding:40px 24px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border)}
 footer span{color:var(--accent)}
@@ -106,6 +112,11 @@ footer span{color:var(--accent)}
   </a>
 </section>
 
+<section class="map-section">
+  <h2>🗺️ Where I've Been</h2>
+  <div id="map-container"></div>
+</section>
+
 <footer>Built with <span>❤️</span> by John <span>🦞</span> · Powered by <a href="https://kamigim.github.io/john-my-guy/" style="color:var(--accent);text-decoration:none">John My Guy</a></footer>
 
 <script>
@@ -122,6 +133,41 @@ toggle.addEventListener('click',()=>{
 
 // Register SW
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+
+// ── Map ──
+function initMap(){
+  if(window._mapInit)return;window._mapInit=true;
+  const s=document.createElement('script');s.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+  s.onload=function(){
+    const isDark=document.documentElement.dataset.theme==='dark';
+    const tile=isDark?'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png':'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+    const map=L.map('map-container',{zoomControl:true,scrollWheelZoom:false}).setView([25,110],3);
+    L.tileLayer(tile,{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:12}).addTo(map);
+    const trips=[
+      {pos:[26.87,100.23],title:'Lijiang, China',date:'Apr 2026',emoji:'🏔️',color:'#38bdf8'},
+      {pos:[37.57,126.98],title:'Seoul, Korea',date:'Feb 2026',emoji:'🇰🇷',color:'#818cf8'},
+      {pos:[22.32,114.17],title:'Hong Kong',date:'Jan 2026',emoji:'🇭🇰',color:'#f87171'},
+      {pos:[35.68,139.69],title:'Tokyo, Japan',date:'Nov 2025',emoji:'🇯🇵',color:'#fb923c'},
+      {pos:[34.97,135.77],title:'Kyoto, Japan',date:'Nov 2025',emoji:'🏯',color:'#fb923c'},
+      {pos:[34.69,135.50],title:'Osaka, Japan',date:'Dec 2025',emoji:'🏯',color:'#fb923c'},
+    ];
+    const bounds=[];
+    trips.forEach(function(t){
+      const icon=L.divIcon({className:'',html:'<div style="font-size:1.8rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))">'+t.emoji+'</div>',iconSize:[36,36],iconAnchor:[18,18]});
+      L.marker(t.pos,{icon:icon}).addTo(map).bindPopup('<strong>'+t.title+'</strong><br><span style="color:#666">'+t.date+'</span>');
+      bounds.push(t.pos);
+    });
+    map.fitBounds(bounds,{padding:[30,30],maxZoom:5});
+  };
+  document.head.appendChild(s);
+  const ls=document.createElement('link');ls.rel='stylesheet';ls.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(ls);
+}
+initMap();
+
+// Update map tiles on theme change
+document.getElementById('themeToggle').addEventListener('click',function(){
+  setTimeout(function(){if(window._mapInit){const m=document.getElementById('map-container');if(m._leaflet_id){const map=L.map._instances?Object.values(L.map._instances)[0]:null;if(map){map.eachLayer(function(l){if(l._url)map.removeLayer(l)});const isDark=document.documentElement.dataset.theme==='dark';const tile=isDark?'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png':'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';L.tileLayer(tile,{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:12}).addTo(map);}}}},100);
+});
 </script>
 </body>
 </html>
