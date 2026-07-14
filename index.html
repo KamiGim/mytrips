@@ -74,6 +74,15 @@ footer span{color:var(--accent)}
 </section>
 
 <section class="trips">
+  <a class="trip-card" href="okinawa/">
+    <div class="card-emoji">🏝️</div>
+    <div class="card-body">
+      <h2>Okinawa, Japan</h2>
+      <div class="dates">Aug 13 – 16, 2026</div>
+      <div class="desc">Self-drive road trip, Ryukyu castles, turquoise seas</div>
+    </div>
+    <div class="card-arrow">View Trip →</div>
+  </a>
   <a class="trip-card" href="https://kamigim.github.io/lijiang-trip-2026/">
     <div class="card-emoji">🏔️</div>
     <div class="card-body">
@@ -144,6 +153,7 @@ function initMap(){
     const map=L.map('map-container',{zoomControl:true,scrollWheelZoom:false}).setView([25,110],3);
     L.tileLayer(tile,{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:12}).addTo(map);
     const trips=[
+      {pos:[26.20,127.68],title:'Okinawa, Japan',date:'Aug 2026',emoji:'🏝️',color:'#2dd4bf'},
       {pos:[26.87,100.23],title:'Lijiang, China',date:'Apr 2026',emoji:'🏔️',color:'#38bdf8'},
       {pos:[37.57,126.98],title:'Seoul, Korea',date:'Feb 2026',emoji:'🇰🇷',color:'#818cf8'},
       {pos:[22.32,114.17],title:'Hong Kong',date:'Jan 2026',emoji:'🇭🇰',color:'#f87171'},
